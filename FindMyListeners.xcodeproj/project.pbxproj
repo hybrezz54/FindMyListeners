@@ -143,11 +143,10 @@
 		B5D08421257865F8003F8044 /* FindMyListeners */ = {
 			isa = PBXGroup;
 			children = (
+				B5D8BED0257AF70800162E03 /* View Controllers */,
 				B5D0845D25786DFE003F8044 /* GoogleService-Info.plist */,
 				B5D08422257865F8003F8044 /* AppDelegate.swift */,
 				B5D08424257865F8003F8044 /* SceneDelegate.swift */,
-				B5D08426257865F8003F8044 /* LoginViewController.swift */,
-				B57AD663257A06D000FF050E /* MainViewController.swift */,
 				B5D08428257865F8003F8044 /* Main.storyboard */,
 				B5D0842B257865FC003F8044 /* Assets.xcassets */,
 				B5D0842D257865FC003F8044 /* LaunchScreen.storyboard */,
@@ -172,6 +171,15 @@
 				B5D08446257865FC003F8044 /* Info.plist */,
 			);
 			path = FindMyListenersUITests;
+			sourceTree = "<group>";
+		};
+		B5D8BED0257AF70800162E03 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B5D08426257865F8003F8044 /* LoginViewController.swift */,
+				B57AD663257A06D000FF050E /* MainViewController.swift */,
+			);
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
