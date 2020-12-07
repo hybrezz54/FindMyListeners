@@ -10,9 +10,35 @@ import Firebase
 
 class LoginViewController: UIViewController {
     
+    var handle: AuthStateDidChangeListenerHandle?
+    
     @IBOutlet weak var usernameTextField: UITextField!
     
     @IBOutlet weak var passwordTextField: UITextField!
+    
+    // https://developer.apple.com/documentation/uikit/view_controllers/showing_and_hiding_view_controllers
+    func changeViewToMain() {
+        performSegue(withIdentifier: Constants.Storyboard.loginToMainSegue, sender: self)
+//        let controller = storyboard!.instantiateViewController(identifier: Constants.Storyboard.mainViewController)
+//        show(controller, sender: self)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // check if user is logged in on login screen
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if user != nil {
+                self.changeViewToMain()
+            }
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // remove auth listener from login screen
+        Auth.auth().removeStateDidChangeListener(handle!)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,8 +46,8 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func onClickLogin(_ sender: Any) {
-        let email = usernameTextField.text!
-        let password = passwordTextField.text!
+        let email = usernameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
         if email.isEmpty || password.isEmpty {
             let alert = UIAlertController(title: "Invalid Credentials", message: "Please enter a username and a password and try again.", preferredStyle: .alert)
@@ -30,7 +56,8 @@ class LoginViewController: UIViewController {
             return
         }
         
-        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in guard let strongSelf = self else { return }
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
+            guard let strongSelf = self else { return }
             
             if let error = error as NSError? {
                 var message: String?
@@ -58,12 +85,8 @@ class LoginViewController: UIViewController {
                 strongSelf.present(alert, animated: true)
                 return
             }
-            
-//            strongSelf.performSegue(withIdentifier: "loginToMain", sender: self)
-            let mainViewController = MainViewController()
-            mainViewController.modalPresentationStyle = .fullScreen
-            strongSelf.present(mainViewController, animated: true)
         }
+        
     }
     
 }

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		411198E0656A69C2759FC583 /* Pods_FindMyListenersTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9983E1D9F8B313CC4EEA98AB /* Pods_FindMyListenersTests.framework */; };
 		8985D20AAA9A88FAAC2143E1 /* Pods_FindMyListeners_FindMyListenersUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CBA4CE82FCF03D210DBF603 /* Pods_FindMyListeners_FindMyListenersUITests.framework */; };
+		B53411A5257CBA1800D5C9B2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53411A4257CBA1800D5C9B2 /* Constants.swift */; };
+		B53411E9257DDAAB00D5C9B2 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53411E8257DDAAB00D5C9B2 /* Utilities.swift */; };
 		B57AD664257A06D000FF050E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57AD663257A06D000FF050E /* MainViewController.swift */; };
 		B5D08423257865F8003F8044 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D08422257865F8003F8044 /* AppDelegate.swift */; };
 		B5D08425257865F8003F8044 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D08424257865F8003F8044 /* SceneDelegate.swift */; };
@@ -48,6 +50,8 @@
 		9983E1D9F8B313CC4EEA98AB /* Pods_FindMyListenersTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FindMyListenersTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACC5CA53CF085F2025A3C5A1 /* Pods-FindMyListeners-FindMyListenersUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FindMyListeners-FindMyListenersUITests.release.xcconfig"; path = "Target Support Files/Pods-FindMyListeners-FindMyListenersUITests/Pods-FindMyListeners-FindMyListenersUITests.release.xcconfig"; sourceTree = "<group>"; };
 		AEAB38D69F92A65089F377C2 /* Pods_FindMyListeners.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FindMyListeners.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B53411A4257CBA1800D5C9B2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		B53411E8257DDAAB00D5C9B2 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		B57AD663257A06D000FF050E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		B5D0841F257865F8003F8044 /* FindMyListeners.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FindMyListeners.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D08422257865F8003F8044 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -118,6 +122,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B53411A3257CBA0500D5C9B2 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				B53411A4257CBA1800D5C9B2 /* Constants.swift */,
+				B53411E8257DDAAB00D5C9B2 /* Utilities.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		B5D08416257865F8003F8044 = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +156,7 @@
 		B5D08421257865F8003F8044 /* FindMyListeners */ = {
 			isa = PBXGroup;
 			children = (
+				B53411A3257CBA0500D5C9B2 /* Helpers */,
 				B5D8BED0257AF70800162E03 /* View Controllers */,
 				B5D0845D25786DFE003F8044 /* GoogleService-Info.plist */,
 				B5D08422257865F8003F8044 /* AppDelegate.swift */,
@@ -421,6 +435,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B53411E9257DDAAB00D5C9B2 /* Utilities.swift in Sources */,
+				B53411A5257CBA1800D5C9B2 /* Constants.swift in Sources */,
 				B5D08427257865F8003F8044 /* LoginViewController.swift in Sources */,
 				B5D08423257865F8003F8044 /* AppDelegate.swift in Sources */,
 				B5D08425257865F8003F8044 /* SceneDelegate.swift in Sources */,
