@@ -88,7 +88,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logged In Successfully!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5aP-QO-yKQ">
-                                <rect key="frame" x="40" y="409" width="334" height="24"/>
+                                <rect key="frame" x="40" y="91" width="334" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -101,20 +101,30 @@
                                     <action selector="signOutButton:" destination="i7G-lX-lOY" eventType="touchUpInside" id="zq1-5P-T5O"/>
                                 </connections>
                             </button>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="tRC-7N-WmV">
+                                <rect key="frame" x="0.0" y="145" width="414" height="663"/>
+                            </mapView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="gLr-S3-Chk"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="5aP-QO-yKQ" firstAttribute="leading" secondItem="gLr-S3-Chk" secondAttribute="leading" constant="40" id="7Ry-rS-ktg"/>
+                            <constraint firstItem="tRC-7N-WmV" firstAttribute="bottom" secondItem="gLr-S3-Chk" secondAttribute="bottom" id="Bh7-MZ-KAp"/>
+                            <constraint firstItem="5aP-QO-yKQ" firstAttribute="top" secondItem="QlA-Ke-9gM" secondAttribute="bottom" constant="30" id="ClK-YD-uuG"/>
+                            <constraint firstItem="gLr-S3-Chk" firstAttribute="trailing" secondItem="tRC-7N-WmV" secondAttribute="trailing" id="JeN-WE-biU"/>
                             <constraint firstItem="QlA-Ke-9gM" firstAttribute="top" secondItem="gLr-S3-Chk" secondAttribute="top" constant="25" id="JqC-Vq-QUW"/>
+                            <constraint firstItem="gLr-S3-Chk" firstAttribute="bottom" secondItem="tRC-7N-WmV" secondAttribute="bottom" id="NOO-T3-vu4"/>
                             <constraint firstItem="gLr-S3-Chk" firstAttribute="trailing" secondItem="5aP-QO-yKQ" secondAttribute="trailing" constant="40" id="PUB-S8-UH2"/>
-                            <constraint firstItem="5aP-QO-yKQ" firstAttribute="centerY" secondItem="rFa-Vi-XsW" secondAttribute="centerY" id="cIE-Ar-HRV"/>
+                            <constraint firstItem="tRC-7N-WmV" firstAttribute="top" secondItem="5aP-QO-yKQ" secondAttribute="bottom" constant="30" id="VPa-oz-ZUe"/>
+                            <constraint firstItem="tRC-7N-WmV" firstAttribute="centerX" secondItem="rFa-Vi-XsW" secondAttribute="centerX" id="aJu-mF-hK1"/>
+                            <constraint firstItem="tRC-7N-WmV" firstAttribute="leading" secondItem="gLr-S3-Chk" secondAttribute="leading" id="gou-On-aeY"/>
                             <constraint firstItem="gLr-S3-Chk" firstAttribute="trailing" secondItem="QlA-Ke-9gM" secondAttribute="trailing" constant="30" id="meZ-2M-MBg"/>
                             <constraint firstItem="5aP-QO-yKQ" firstAttribute="centerX" secondItem="rFa-Vi-XsW" secondAttribute="centerX" id="tfy-cb-gJR"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="m1E-66-zbB"/>
                     <connections>
+                        <outlet property="mapView" destination="tRC-7N-WmV" id="YbF-6S-771"/>
                         <outlet property="primaryTextField" destination="5aP-QO-yKQ" id="BWU-A0-a8w"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="mainToLogin" id="FOG-ne-7AI"/>
                     </connections>

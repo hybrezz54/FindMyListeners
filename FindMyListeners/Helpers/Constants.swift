@@ -20,5 +20,11 @@ struct Constants {
         static let mainToLoginSegue = "mainToLogin"
         
     }
+
+    struct Database {
+        
+        static let locationsDatabase = "https://aux-ed388-locations.firebaseio.com/"
+        
+    }
     
 }
