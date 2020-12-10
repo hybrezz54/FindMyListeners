@@ -12,26 +12,19 @@ import Firebase
 
 class MainViewController: UIViewController, CLLocationManagerDelegate {
     
-    var handle: AuthStateDidChangeListenerHandle?
+    var dbHandle: DatabaseHandle?
     
     var ref: DatabaseReference!
     
     var locationManager: CLLocationManager!
     
-    var lat: Int!
+    var lat: Int?
     
-    var long: Int!
+    var long: Int?
+    
+    var nearUsers: [String]?
     
     @IBOutlet weak var primaryTextField: UILabel!
-    
-    @IBOutlet weak var mapView: MKMapView!
-    
-    // https://developer.apple.com/documentation/uikit/view_controllers/showing_and_hiding_view_controllers
-    func changeViewToLogin() {
-        performSegue(withIdentifier: Constants.Storyboard.mainToLoginSegue, sender: self)
-//        let controller = storyboard!.instantiateViewController(identifier: Constants.Storyboard.loginViewController)
-//        show(controller, sender: self)
-    }
     
     func updatePrimaryTextField() {
         let user = Auth.auth().currentUser
@@ -51,20 +44,40 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
         if CLLocationManager.locationServicesEnabled() {
 //            locationManager.startUpdatingLocation()
             locationManager.requestLocation()
-            mapView.showsUserLocation = true
+//            mapView.showsUserLocation = true
         }
     }
     
-    func writeLocation(_ coordinate: CLLocationCoordinate2D) {
+    func readAndWriteLocation(_ coordinate: CLLocationCoordinate2D) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         // 3-digit precision for location
         lat = (coordinate.latitude * 1000).toInt()
         long = (coordinate.longitude * 1000).toInt()
         
+        // create references
+        let latRef = ref.child("lat/\(lat!)")
+        let longRef = ref.child("long/\(long!)")
+        
+        // read users with same latitude and longitude
+        dbHandle = latRef.observe(.value, with: { [weak self] (latSnapshot) in
+            guard let strongSelf = self else { return }
+            
+            longRef.observeSingleEvent(of: .value, with: { (longSnapshot) in
+                let latUsers = Set((latSnapshot.value as? [String : AnyObject] ?? [:]).keys)
+                let longUsers = Set((longSnapshot.value as? [String : AnyObject] ?? [:]).keys)
+                
+                // update view
+                strongSelf.nearUsers = [String](latUsers.intersection(longUsers).subtracting([uid]))
+                print(strongSelf.nearUsers!)
+            })
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+        
         // update database
-        ref.child("lat/\(lat!)/\(uid)").setValue(true)
-        ref.child("long/\(long!)/\(uid)").setValue(true)
+        latRef.child("\(uid)").setValue(true)
+        longRef.child("\(uid)").setValue(true)
     }
     
     func deleteLocation() {
@@ -77,25 +90,11 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // check if user is logged in on screen
-        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            if user == nil {
-                self.changeViewToLogin()
-            }
-        }
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // delete user's location from database
         deleteLocation()
-        
-        // remove auth listener from screen
-        Auth.auth().removeStateDidChangeListener(handle!)
     }
 
     override func viewDidLoad() {
@@ -121,11 +120,11 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             primaryTextField.text = "\(location.coordinate.latitude), \(location.coordinate.longitude)"
-            writeLocation(location.coordinate)
+            readAndWriteLocation(location.coordinate)
             
             // zoom in on map appropriately
-            let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-            mapView.setRegion(region, animated: true)
+//            let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+//            mapView.setRegion(region, animated: true)
         }
     }
     

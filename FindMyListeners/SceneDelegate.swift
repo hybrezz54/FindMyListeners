@@ -6,17 +6,34 @@
 //
 
 import UIKit
+import Firebase
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    
+    weak var handle: AuthStateDidChangeListenerHandle?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+        // get root view controller
+        let vc = self.window?.rootViewController as? UINavigationController
+//        let controller = storyboard!.instantiateViewController(identifier: Constants.Storyboard.mainViewController)
+//        show(controller, sender: self)
+        
+        // check if user is logged in on login screen
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if user != nil {
+                let mainVC = vc?.storyboard?.instantiateViewController(identifier: Constants.Storyboard.mainViewController)
+                vc?.pushViewController(mainVC!, animated: true)
+            } else {
+                vc?.popViewController(animated: true)
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -24,6 +41,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This occurs shortly after the scene enters the background, or when its session is discarded.
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
         // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
+//        Auth.auth().removeStateDidChangeListener(handle)
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {

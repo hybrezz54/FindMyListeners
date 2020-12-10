@@ -15,10 +15,6 @@ struct Constants {
         
         static let mainViewController = "MainVC"
         
-        static let loginToMainSegue = "loginToMain"
-        
-        static let mainToLoginSegue = "mainToLogin"
-        
     }
 
     struct Database {
