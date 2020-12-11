@@ -100,20 +100,24 @@
                                     <action selector="signOutButton:" destination="i7G-lX-lOY" eventType="touchUpInside" id="zq1-5P-T5O"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="har-GL-mIp">
-                                <rect key="frame" x="87" y="157" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="har-GL-mIp">
+                                <rect key="frame" x="0.0" y="199" width="414" height="663"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="gLr-S3-Chk"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="har-GL-mIp" firstAttribute="top" secondItem="5aP-QO-yKQ" secondAttribute="bottom" constant="40" id="4O8-lC-qtM"/>
                             <constraint firstItem="5aP-QO-yKQ" firstAttribute="leading" secondItem="gLr-S3-Chk" secondAttribute="leading" constant="40" id="7Ry-rS-ktg"/>
+                            <constraint firstItem="gLr-S3-Chk" firstAttribute="bottom" secondItem="har-GL-mIp" secondAttribute="bottom" id="CdR-nk-XUJ"/>
                             <constraint firstItem="5aP-QO-yKQ" firstAttribute="top" secondItem="QlA-Ke-9gM" secondAttribute="bottom" constant="30" id="ClK-YD-uuG"/>
                             <constraint firstItem="QlA-Ke-9gM" firstAttribute="top" secondItem="gLr-S3-Chk" secondAttribute="top" constant="25" id="JqC-Vq-QUW"/>
                             <constraint firstItem="gLr-S3-Chk" firstAttribute="trailing" secondItem="5aP-QO-yKQ" secondAttribute="trailing" constant="40" id="PUB-S8-UH2"/>
+                            <constraint firstItem="har-GL-mIp" firstAttribute="leading" secondItem="gLr-S3-Chk" secondAttribute="leading" id="bzT-6S-N0O"/>
                             <constraint firstItem="gLr-S3-Chk" firstAttribute="trailing" secondItem="QlA-Ke-9gM" secondAttribute="trailing" constant="30" id="meZ-2M-MBg"/>
+                            <constraint firstItem="har-GL-mIp" firstAttribute="centerX" secondItem="rFa-Vi-XsW" secondAttribute="centerX" id="oI7-7w-Phj"/>
+                            <constraint firstItem="gLr-S3-Chk" firstAttribute="trailing" secondItem="har-GL-mIp" secondAttribute="trailing" id="p4h-yj-Ke0"/>
                             <constraint firstItem="5aP-QO-yKQ" firstAttribute="centerX" secondItem="rFa-Vi-XsW" secondAttribute="centerX" id="tfy-cb-gJR"/>
                         </constraints>
                     </view>

@@ -82,28 +82,62 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     
     func deleteLocation() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let lat = lat, let long = long else { return }
+        
+        // create references
+        let latRef = ref.child("lat/\(lat)")
+        let longRef = ref.child("long/\(long)")
         
         // update database
-        if lat != nil && long != nil {
-            ref.child("lat/\(lat!)/\(uid)").setValue(nil)
-            ref.child("long/\(long!)/\(uid)").setValue(nil)
+        latRef.child("\(uid)").setValue(nil)
+        longRef.child("\(uid)").setValue(nil)
+
+        // clean up
+        self.lat = nil
+        self.long = nil
+        guard let dbHandle = dbHandle else { return }
+        latRef.removeObserver(withHandle: dbHandle)
+    }
+    
+    @objc func appMovedToForeground() {
+        // determine location again
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.requestLocation()
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        // delete user's location from database
+    @objc func appMovedToBackground() {
+        // delete user's location from db
         deleteLocation()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        updatePrimaryTextField()
-        determineLocation()
         
         // get ref to db
         ref = Database.database(url: Constants.Database.locationsDatabase).reference()
+        
+        // add background observers
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.didBecomeActiveNotification, object: nil)
+        
+        // location setup
+        updatePrimaryTextField()
+        determineLocation()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("MainViewController's ViewWillDisappear!")
+        
+        // remove background observers
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.removeObserver(self, name: UIApplication.willResignActiveNotification, object: nil)
+        notificationCenter.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
+        
+        // delete user's location from database
+        deleteLocation()
     }
     
     @IBAction func signOutButton(_ sender: Any) {

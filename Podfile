@@ -8,6 +8,7 @@ target 'FindMyListeners' do
   # Pods for FindMyListeners
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
+  pod 'Firebase/Firestore'
 
   target 'FindMyListenersTests' do
     inherit! :search_paths
