@@ -15,6 +15,8 @@ struct Constants {
         
         static let mainViewController = "MainVC"
         
+        static let mainTableViewUserCell = "UserCell"
+        
     }
 
     struct Database {

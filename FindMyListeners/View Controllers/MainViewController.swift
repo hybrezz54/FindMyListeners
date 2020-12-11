@@ -10,7 +10,7 @@ import MapKit
 import CoreLocation
 import Firebase
 
-class MainViewController: UIViewController, CLLocationManagerDelegate {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
     
     var dbHandle: DatabaseHandle?
     
@@ -24,7 +24,11 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     
     var nearUsers: [String]?
     
+    let countries: [String] = ["New Zealand", "Australia", "United Arab Emirates"]
+    
     @IBOutlet weak var primaryTextField: UILabel!
+    
+    @IBOutlet weak var tableView: UITableView!
     
     func updatePrimaryTextField() {
         let user = Auth.auth().currentUser
@@ -69,6 +73,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
                 
                 // update view
                 strongSelf.nearUsers = [String](latUsers.intersection(longUsers).subtracting([uid]))
+                strongSelf.tableView.reloadData()
                 print(strongSelf.nearUsers!)
             })
         }) { (error) in
@@ -97,6 +102,17 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
         self.long = nil
         guard let dbHandle = dbHandle else { return }
         latRef.removeObserver(withHandle: dbHandle)
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return countries.count
+        return nearUsers?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Storyboard.mainTableViewUserCell, for: indexPath)
+        cell.textLabel!.text = nearUsers?[indexPath.row] ?? ""
+        return cell
     }
     
     @objc func appMovedToForeground() {
