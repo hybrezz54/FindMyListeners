@@ -42,13 +42,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-//        locationManager.distanceFilter = kCLDistanceFilterNone
+        //        locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.requestWhenInUseAuthorization()
         
         if CLLocationManager.locationServicesEnabled() {
-//            locationManager.startUpdatingLocation()
+            //            locationManager.startUpdatingLocation()
             locationManager.requestLocation()
-//            mapView.showsUserLocation = true
+            //            mapView.showsUserLocation = true
         }
     }
     
@@ -72,9 +72,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let longUsers = Set((longSnapshot.value as? [String : AnyObject] ?? [:]).keys)
                 
                 // update view
-                strongSelf.nearUsers = [String](latUsers.intersection(longUsers).subtracting([uid]))
-                strongSelf.tableView.reloadData()
-                print(strongSelf.nearUsers!)
+                let nearUIDs = [String](latUsers.intersection(longUsers).subtracting([uid]))
+                strongSelf.updateUsers(nearUIDs)
+//                print(nearUIDs)
             })
         }) { (error) in
             print(error.localizedDescription)
@@ -96,16 +96,43 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         // update database
         latRef.child("\(uid)").setValue(nil)
         longRef.child("\(uid)").setValue(nil)
-
+        
         // clean up
         self.lat = nil
         self.long = nil
+        nearUsers = []
         guard let dbHandle = dbHandle else { return }
         latRef.removeObserver(withHandle: dbHandle)
     }
     
+    func updateUsers(_ uids: [String]) {
+        guard let _ = Auth.auth().currentUser?.uid else { return }
+        nearUsers = []
+        
+        if !uids.isEmpty {
+            let db = Firestore.firestore()
+            db.collection("users").whereField("uid", in: uids).getDocuments() { [weak self] (snapshot, err) in
+                guard let strongSelf = self else { return }
+                
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in snapshot!.documents {
+                        let data = document.data()
+                        let name = data["name"] as? String ?? "Unknown"
+                        strongSelf.nearUsers!.append(name)
+                    }
+                    
+                    strongSelf.tableView!.reloadData()
+                }
+            }
+        } else {
+            tableView.reloadData()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return countries.count
+        //        return countries.count
         return nearUsers?.count ?? 0
     }
     
@@ -126,7 +153,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         // delete user's location from db
         deleteLocation()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -173,15 +200,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             readAndWriteLocation(location.coordinate)
             
             // zoom in on map appropriately
-//            let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-//            mapView.setRegion(region, animated: true)
+            //            let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+            //            mapView.setRegion(region, animated: true)
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Failed to find location: \(error.localizedDescription)")
     }
-
+    
 }
 
 extension Double {
