@@ -35,15 +35,19 @@ class LoginViewController: UIViewController {
                 case .operationNotAllowed:
                     // Error: Indicates that email and password accounts are not enabled. Enable them in the Auth section of the Firebase console.
                     message = "This type of login is not enabled."
+                    break
                 case .userDisabled:
                 // Error: The user account has been disabled by an administrator.
                     message = "Your account has been disabled by an administrator and needs to be enabled to continue."
+                    break
                 case .wrongPassword:
                 // Error: The password is invalid or the user does not have a password.
                     message = "The password is invalid. Please try again."
+                    break
                 case .invalidEmail:
                 // Error: Indicates the email address is malformed.
                     message = "The email address is invalid. Please try again."
+                    break
                 default:
                     message = "Please enter a valid username and password and try again."
                     print(error.localizedDescription)
